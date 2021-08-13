@@ -38,6 +38,10 @@ class Screen:
                 if cell.turret is not None:
                     pygame.draw.circle(self.screen, (255, 179, 48), (prawo + 40, dol + 40), 35)
 
+                    if cell.turret.get_current_enemy():
+                        pygame.draw.line(self.screen, (255, 0, 0), cell.turret.position,
+                                         cell.turret.get_current_enemy().position)
+
                 prawo = prawo + 80
 
             czarna = not czarna

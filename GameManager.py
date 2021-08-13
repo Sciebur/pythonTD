@@ -69,17 +69,25 @@ class GameManager:
                     closest_distance_sq = dist_sq
                     closest_enemy = enemy
 
-            if closest_enemy and turret.can_shoot() and math.sqrt(closest_distance_sq) <= turret.range:
-                turret.shoot()
-                closest_enemy.take_dmg(turret.dmg)
-                if closest_enemy.is_dead():
-                    self.mana = self.mana + closest_enemy.max_hp
-                    self.enemies.remove(closest_enemy)
+            if closest_enemy and math.sqrt(closest_distance_sq) <= turret.range:
+                if turret.can_shoot():
+                    turret.set_current_enemy(closest_enemy)
+                    turret.shoot()
+                    closest_enemy.take_dmg(turret.dmg)
+                    if closest_enemy.is_dead():
+                        self.mana = self.mana + closest_enemy.max_hp
+                        self.enemies.remove(closest_enemy)
+                        # FIXME naprawa promienia dla przerobionych turretów
+            else:
+                turret.set_current_enemy(None)
 
         for enemy in self.enemies:
             if enemy.is_at_base():
                 self.base_hp = self.base_hp - enemy.hp
                 self.enemies.remove(enemy)
+
+                if self.base_hp <= 0:
+                    print("GAME OVER")
 
     def move_enemies(self):
         for enemy in self.enemies:
