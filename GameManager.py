@@ -18,11 +18,11 @@ class GameManager:
 
     def create_map(self):
         for i in range(10):
-            rząd = []
+            row = []
             for j in range(10):
                 cell = Cell()
-                rząd.append(cell)
-            self.mapa.append(rząd)
+                row.append(cell)
+            self.mapa.append(row)
 
         self._setup_map()
 
@@ -44,7 +44,7 @@ class GameManager:
 
     def spawn_enemy(self, enemy_type: EnemyType):
         if enemy_type == EnemyType.Normal:
-            self.enemies.append(Enemy(self.get_enemy_path()))
+            self.enemies.append(EnemyNormal(self.get_enemy_path()))
         elif enemy_type == EnemyType.Fast:
             self.enemies.append(EnemyFast(self.get_enemy_path()))
 
@@ -99,11 +99,8 @@ class GameManager:
     def get_base_hp_fraction(self):
         return self.base_hp / self.base_max_hp
 
-    def build_turret(self, pos, turret_type: TurretType):
-        if turret_type == TurretType.Sniper:
-            turret = TurretSniper((0, 0))
-        else:
-            turret = Turret((0, 0))
+    def build_turret(self, pos, turret_type):
+        turret = turret_type((0, 0))
 
         if self.mana < turret.cost:
             print("Brakuje many")
@@ -114,8 +111,11 @@ class GameManager:
 
         cell = self.mapa[row][col]
 
-        if cell.type == CellType.BUILDABLE or cell.type == CellType.DEFAULT:
+        if cell.type == CellType.BUILDABLE or cell.type == CellType.DEFAULT and not cell.turret:
             position = Vector((col + .5) * 80, (row + .5) * 80)
             turret.set_position(position)
             cell.turret = turret
             self.mana = self.mana - turret.cost
+
+    def add_mana(self, value):
+        self.mana = self.mana + value

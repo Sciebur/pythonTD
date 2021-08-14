@@ -39,10 +39,12 @@ class Screen:
                 pygame.draw.rect(self.screen, color, (prawo, dol, 80, 80))
 
                 if cell.turret is not None:
-                    if isinstance(cell.turret, TurretSniper):
+                    if isinstance(cell.turret, TurretNormal):
+                        color = (255, 179, 48)
+                    elif isinstance(cell.turret, TurretSniper):
                         color = (5, 120, 18)
                     else:
-                        color = (255, 179, 48)
+                        raise
 
                     pygame.draw.circle(self.screen, color, (prawo + 40, dol + 40), 35)
 
@@ -75,12 +77,15 @@ class Screen:
 
     def draw_enemies(self):
         for enemy in self.manager.enemies:
-            if isinstance(enemy, EnemyFast):
+
+            if isinstance(enemy, EnemyNormal):
+                color_back = (255, 0, 17)
+                color_front = (16, 16, 17)
+            elif isinstance(enemy, EnemyFast):
                 color_back = (4, 57, 143)
                 color_front = (32, 91, 186)
             else:
-                color_back = (255, 0, 17)
-                color_front = (16, 16, 17)
+                raise
 
             pygame.draw.circle(self.screen, color_back, (enemy.position[0], enemy.position[1]), 20)
             pygame.draw.circle(self.screen, color_front, (enemy.position[0], enemy.position[1]),

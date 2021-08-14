@@ -41,12 +41,14 @@ def process_events(manager):
                 manager.spawn_enemy(EnemyType.Normal)
             if event.key == pygame.K_r:
                 manager.spawn_enemy(EnemyType.Fast)
+            if event.key == pygame.K_m:
+                manager.add_mana(100)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed(3)[0]:
-                manager.build_turret(pygame.mouse.get_pos(), TurretType.Normal)
+                manager.build_turret(pygame.mouse.get_pos(), TurretNormal)
             if pygame.mouse.get_pressed(3)[2]:
-                manager.build_turret(pygame.mouse.get_pos(), TurretType.Sniper)
+                manager.build_turret(pygame.mouse.get_pos(), TurretSniper)
 
 
 if __name__ == '__main__':

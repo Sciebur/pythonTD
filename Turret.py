@@ -10,10 +10,10 @@ class TurretType(Enum):
 
 
 class Turret:
-    dmg = 1
-    attack_speed = 2
-    range = 200
-    cost = 50
+    dmg = 0
+    attack_speed = 0
+    range = 0
+    cost = 0
     position = None
     last_attack_time = 0
     current_enemy = None
@@ -37,6 +37,14 @@ class Turret:
 
     def set_position(self, position):
         self.position = position
+
+
+class TurretNormal(Turret):
+    dmg = 1
+    attack_speed = 2
+    range = 200
+    cost = 50
+
 
 class TurretSniper(Turret):
     dmg = 3

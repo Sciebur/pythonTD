@@ -3,19 +3,19 @@ from enum import Enum
 
 Vector = pygame.math.Vector2
 
+
 class EnemyType(Enum):
     Normal = 0,
     Fast = 1
 
 
 class Enemy:
-    max_hp = 3
-    speed = 5
+    max_hp = 0
+    speed = 0
     hp = 0
     path = []
     position = None
     atBase = False
-    type = EnemyType.Normal
 
     def __init__(self, path):
         self.path = list(path)[1:]
@@ -48,7 +48,11 @@ class Enemy:
         return self.atBase
 
 
+class EnemyNormal(Enemy):
+    max_hp = 3
+    speed = 5
+
+
 class EnemyFast(Enemy):
     max_hp = 2
     speed = 10
-    type = EnemyType.Fast
