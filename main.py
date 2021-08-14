@@ -38,10 +38,15 @@ def process_events(manager):
             if event.key == pygame.K_ESCAPE:
                 exit(0)
             if event.key == pygame.K_e:
-                manager.spawn_enemy()
+                manager.spawn_enemy(EnemyType.Normal)
+            if event.key == pygame.K_r:
+                manager.spawn_enemy(EnemyType.Fast)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed(3)[0]:
-                manager.build_turret(pygame.mouse.get_pos())
+                manager.build_turret(pygame.mouse.get_pos(), TurretType.Normal)
+            if pygame.mouse.get_pressed(3)[2]:
+                manager.build_turret(pygame.mouse.get_pos(), TurretType.Sniper)
 
 
 if __name__ == '__main__':

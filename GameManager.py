@@ -2,7 +2,7 @@ import math
 
 import pygame
 from Cell import *
-from Screen import *
+# from Screen import Screen
 from Turret import *
 from Enemy import *
 
@@ -42,8 +42,11 @@ class GameManager:
         self.mapa[4][8].type = CellType.PATH
         self.mapa[4][9].type = CellType.BAZA
 
-    def spawn_enemy(self):
-        self.enemies.append(Enemy(self.get_enemy_path()))
+    def spawn_enemy(self, enemy_type: EnemyType):
+        if enemy_type == EnemyType.Normal:
+            self.enemies.append(Enemy(self.get_enemy_path()))
+        elif enemy_type == EnemyType.Fast:
+            self.enemies.append(EnemyFast(self.get_enemy_path()))
 
     def get_enemy_path(self):
         return [(40, 360), (280, 360), (280, 520), (520, 520), (520, 360), (760, 360)]
@@ -96,8 +99,12 @@ class GameManager:
     def get_base_hp_fraction(self):
         return self.base_hp / self.base_max_hp
 
-    def build_turret(self, pos):
-        turret = Turret((0, 0))
+    def build_turret(self, pos, turret_type: TurretType):
+        if turret_type == TurretType.Sniper:
+            turret = TurretSniper((0, 0))
+        else:
+            turret = Turret((0, 0))
+
         if self.mana < turret.cost:
             print("Brakuje many")
             return
@@ -109,6 +116,6 @@ class GameManager:
 
         if cell.type == CellType.BUILDABLE or cell.type == CellType.DEFAULT:
             position = Vector((col + .5) * 80, (row + .5) * 80)
-            turret = Turret(position)
+            turret.set_position(position)
             cell.turret = turret
             self.mana = self.mana - turret.cost

@@ -2,7 +2,10 @@ import pygame
 from Cell import *
 from Utils import *
 from typing import List
-from GameManager import GameManager
+from GameManager import *
+
+
+# from Enemy import *
 
 
 # TODO make it a class
@@ -36,7 +39,12 @@ class Screen:
                 pygame.draw.rect(self.screen, color, (prawo, dol, 80, 80))
 
                 if cell.turret is not None:
-                    pygame.draw.circle(self.screen, (255, 179, 48), (prawo + 40, dol + 40), 35)
+                    if isinstance(cell.turret, TurretSniper):
+                        color = (5, 120, 18)
+                    else:
+                        color = (255, 179, 48)
+
+                    pygame.draw.circle(self.screen, color, (prawo + 40, dol + 40), 35)
 
                     if cell.turret.get_current_enemy():
                         pygame.draw.line(self.screen, (255, 0, 0), cell.turret.position,
@@ -67,8 +75,15 @@ class Screen:
 
     def draw_enemies(self):
         for enemy in self.manager.enemies:
-            pygame.draw.circle(self.screen, (255, 0, 17), (enemy.position[0], enemy.position[1]), 20)
-            pygame.draw.circle(self.screen, (16, 16, 17), (enemy.position[0], enemy.position[1]),
+            if isinstance(enemy, EnemyFast):
+                color_back = (4, 57, 143)
+                color_front = (32, 91, 186)
+            else:
+                color_back = (255, 0, 17)
+                color_front = (16, 16, 17)
+
+            pygame.draw.circle(self.screen, color_back, (enemy.position[0], enemy.position[1]), 20)
+            pygame.draw.circle(self.screen, color_front, (enemy.position[0], enemy.position[1]),
                                20 * enemy.hp / enemy.max_hp)
 
     def draw_base_hp(self):

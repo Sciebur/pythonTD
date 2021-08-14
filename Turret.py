@@ -1,6 +1,12 @@
 import pygame
+from enum import Enum
 
 Vector = pygame.math.Vector2
+
+
+class TurretType(Enum):
+    Normal = 0,
+    Sniper = 1
 
 
 class Turret:
@@ -28,3 +34,12 @@ class Turret:
 
     def get_current_enemy(self):
         return self.current_enemy
+
+    def set_position(self, position):
+        self.position = position
+
+class TurretSniper(Turret):
+    dmg = 3
+    attack_speed = 1
+    range = 350
+    cost = 100
