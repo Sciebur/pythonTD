@@ -14,6 +14,8 @@ class Screen:
     def __init__(self, manager: GameManager):
         self.screen = pygame.display.set_mode((800, 800))
         self.manager = manager
+        self.testimage = pygame.image.load("asset/test1.bmp").convert()
+        self.testimage = pygame.transform.scale(self.testimage, (40,40))
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -46,7 +48,8 @@ class Screen:
                     else:
                         raise
 
-                    pygame.draw.circle(self.screen, color, (prawo + 40, dol + 40), 35)
+                    pygame.draw.circle(self.screen, color,
+                                       (prawo + 40, dol + 40), 35)
 
                     if cell.turret.get_current_enemy():
                         pygame.draw.line(self.screen, (255, 0, 0), cell.turret.position,
@@ -87,9 +90,12 @@ class Screen:
             else:
                 raise
 
-            pygame.draw.circle(self.screen, color_back, (enemy.position[0], enemy.position[1]), 20)
-            pygame.draw.circle(self.screen, color_front, (enemy.position[0], enemy.position[1]),
+            position = (enemy.position[0], enemy.position[1])
+
+            pygame.draw.circle(self.screen, color_back, position, 20)
+            pygame.draw.circle(self.screen, color_front, position,
                                20 * enemy.hp / enemy.max_hp)
+            self.screen.blit(self.testimage, (enemy.position[0]-20, enemy.position[1]-20))
 
     def draw_base_hp(self):
         for row in self.manager.map.map:
