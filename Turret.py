@@ -39,6 +39,8 @@ class Turret:
         self.position = position
 
 
+
+
 class TurretNormal(Turret):
     dmg = 1
     attack_speed = 2

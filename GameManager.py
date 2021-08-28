@@ -5,42 +5,17 @@ from Cell import *
 # from Screen import Screen
 from Turret import *
 from Enemy import *
+from Map import *
 
 
 class GameManager:
-    mapa = []
+    map = Map(10,10)
     clock = pygame.time.Clock()
     path = []
     enemies = []  # type: List[Enemy]
     base_hp = 100
     base_max_hp = 100
     mana = 100
-
-    def create_map(self):
-        for i in range(10):
-            row = []
-            for j in range(10):
-                cell = Cell()
-                row.append(cell)
-            self.mapa.append(row)
-
-        self._setup_map()
-
-    def _setup_map(self):
-        self.mapa[4][0].type = CellType.SPAWNER
-        self.mapa[4][1].type = CellType.PATH
-        self.mapa[4][2].type = CellType.PATH
-        self.mapa[4][3].type = CellType.PATH
-        self.mapa[5][3].type = CellType.PATH
-        self.mapa[6][3].type = CellType.PATH
-        self.mapa[6][4].type = CellType.PATH
-        self.mapa[6][5].type = CellType.PATH
-        self.mapa[6][6].type = CellType.PATH
-        self.mapa[5][6].type = CellType.PATH
-        self.mapa[4][6].type = CellType.PATH
-        self.mapa[4][7].type = CellType.PATH
-        self.mapa[4][8].type = CellType.PATH
-        self.mapa[4][9].type = CellType.BAZA
 
     def spawn_enemy(self, enemy_type: EnemyType):
         if enemy_type == EnemyType.Normal:
@@ -51,19 +26,13 @@ class GameManager:
     def get_enemy_path(self):
         return [(40, 360), (280, 360), (280, 520), (520, 520), (520, 360), (760, 360)]
 
-    def get_all_turrets(self):
-        result = []
-        for row in self.mapa:
-            for cell in row:
-                if cell.turret:
-                    result.append(cell.turret)
-        return result
+
 
     def shoot(self):
         def _distance_sq(a, b):
             return a.distance_squared_to(b)
 
-        for turret in self.get_all_turrets():
+        for turret in self.map.get_all_turrets():
             closest_distance_sq = 99999999
             closest_enemy = None
             for enemy in self.enemies:
@@ -109,9 +78,9 @@ class GameManager:
         col = math.floor(pos[0] / 80)
         row = math.floor(pos[1] / 80)
 
-        cell = self.mapa[row][col]
+        cell = self.map.get_cell(row,col)
 
-        if cell.type == CellType.BUILDABLE or cell.type == CellType.DEFAULT and not cell.turret:
+        if cell.can_build_turret():
             position = Vector((col + .5) * 80, (row + .5) * 80)
             turret.set_position(position)
             cell.turret = turret

@@ -13,3 +13,6 @@ class CellType(Enum):
 class Cell:
     type = CellType.DEFAULT
     turret = None
+
+    def can_build_turret(self):
+        return (self.type == CellType.BUILDABLE or self.type == CellType.DEFAULT) and not self.turret

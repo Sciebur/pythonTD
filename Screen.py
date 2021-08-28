@@ -29,7 +29,7 @@ class Screen:
         dol = 0
         czarna = False
 
-        for row in self.manager.mapa:
+        for row in self.manager.map.map:
             prawo = 0
 
             for cell in row:
@@ -92,10 +92,10 @@ class Screen:
                                20 * enemy.hp / enemy.max_hp)
 
     def draw_base_hp(self):
-        for row in self.manager.mapa:
+        for row in self.manager.map.map:
             for cell in row:
                 if cell.type is CellType.BAZA:
-                    pos = get_cell_centre(self.manager.mapa, cell)
+                    pos = get_cell_centre(self.manager.map.map, cell)
                     hp_fraction = self.manager.get_base_hp_fraction()
 
                     pygame.draw.rect(self.screen, (92, 88, 88), (

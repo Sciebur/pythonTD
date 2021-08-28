@@ -15,7 +15,6 @@ def main():
     pygame.display.set_caption("TowerDefense")
 
     manager = GameManager()
-    manager.create_map()
 
     screen = Screen(manager)
 
