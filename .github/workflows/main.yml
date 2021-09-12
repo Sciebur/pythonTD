@@ -21,14 +21,22 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller
+        
     - name: build with pyinstaller
       run: |
         pyinstaller main.py
+        
+    - name: Upload To Github Release
+      uses: xresloader/upload-to-github-release@v1.3.2
+      with:
+          file: "*.exe"
