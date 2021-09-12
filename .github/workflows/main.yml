@@ -40,3 +40,5 @@ jobs:
       uses: xresloader/upload-to-github-release@v1.3.2
       with:
           file: "*.exe"
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
