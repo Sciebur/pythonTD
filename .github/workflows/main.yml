@@ -35,10 +35,11 @@ jobs:
     - name: build with pyinstaller
       run: |
         pyinstaller main.py
-        
-    - name: Upload To Github Release
-      uses: xresloader/upload-to-github-release@v1.3.2
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
       with:
-          file: "**/*.exe"
-      env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: pythonTD
+        path: D:\a\pythonTD\pythonTD\build\main\main.exe
+        if-no-files-found: error
+        retention-days: 90
