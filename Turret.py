@@ -10,16 +10,11 @@ class TurretType(Enum):
 
 
 class Turret:
-    dmg = 0
-    attack_speed = 0
-    range = 0
-    cost = 0
-    position = None
-    last_attack_time = 0
-    current_enemy = None
 
     def __init__(self, position):
         self.position = position
+        self.last_attack_time = 0
+        self.current_enemy = None
 
     def can_shoot(self):
         elapsed = pygame.time.get_ticks() - self.last_attack_time
@@ -37,8 +32,6 @@ class Turret:
 
     def set_position(self, position):
         self.position = position
-
-
 
 
 class TurretNormal(Turret):

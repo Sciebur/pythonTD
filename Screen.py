@@ -14,8 +14,6 @@ class Screen:
     def __init__(self, manager: GameManager):
         self.screen = pygame.display.set_mode((800, 800))
         self.manager = manager
-        self.testimage = pygame.image.load("asset/test1.bmp").convert()
-        self.testimage = pygame.transform.scale(self.testimage, (40,40))
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -80,22 +78,7 @@ class Screen:
 
     def draw_enemies(self):
         for enemy in self.manager.enemies:
-
-            if isinstance(enemy, EnemyNormal):
-                color_back = (255, 0, 17)
-                color_front = (16, 16, 17)
-            elif isinstance(enemy, EnemyFast):
-                color_back = (4, 57, 143)
-                color_front = (32, 91, 186)
-            else:
-                raise
-
-            position = (enemy.position[0], enemy.position[1])
-
-            pygame.draw.circle(self.screen, color_back, position, 20)
-            pygame.draw.circle(self.screen, color_front, position,
-                               20 * enemy.hp / enemy.max_hp)
-            self.screen.blit(self.testimage, (enemy.position[0]-20, enemy.position[1]-20))
+            self.screen.blit(enemy.get_image(), (enemy.position[0]-20, enemy.position[1]-20))
 
     def draw_base_hp(self):
         for row in self.manager.map.map:

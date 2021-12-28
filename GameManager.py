@@ -72,7 +72,7 @@ class GameManager:
         turret = turret_type((0, 0))
 
         if self.mana < turret.cost:
-            print("Brakuje many")
+            print(f"Not enough mana: {self.mana}/{turret.cost}")
             return
 
         col = math.floor(pos[0] / 80)
